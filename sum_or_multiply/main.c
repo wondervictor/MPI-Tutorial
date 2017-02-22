@@ -3,7 +3,7 @@
 #include "mpi.h"
 #include "sum.h"
 #include "vector_matrix.h"
-
+#include <time.h>
 
 int main(int argc, char *argv[]) {
     int my_rank, comm_size;
@@ -11,6 +11,12 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &comm_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
+
+
+
+
+
+    /* ****With Gatter But Failed****
 
     double x[32];
     double y[32];
@@ -31,18 +37,25 @@ int main(int argc, char *argv[]) {
         }
         printf("\n");
     }
-
-
-    /* ****Scatter without Gatter****
-    sum_vectors(my_rank, comm_size, x, y, z, 32);
-    if(my_rank == 0) {
-        printf("sum vector is: ");
-        for(int i = 0; i < 32; i ++) {
-            printf("%f ", z[i]);
-        }
-        printf("\n");
-    }
     */
+    srand(time(NULL));
+    /* ****Scatter without Gatter**** */
+    int a[32];
+    for(int i = 0; i < 32; i ++) {
+        a[i] = rand()%100;
+
+    }
+    int max_global = max_reduce(a, 32, my_rank, comm_size);
+    // sum_vectors(my_rank, comm_size, x, y, z, 32);
+    if(my_rank == 0) {
+
+        for(int i = 0; i < 32; i ++) {
+            printf(" %d ", a[i]);
+        }
+
+        printf("\nmax is %d\n", max_global);
+    }
+
 
     /* ****All Reduce****
     int a[32];
