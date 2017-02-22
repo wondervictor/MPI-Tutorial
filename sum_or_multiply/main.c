@@ -21,9 +21,9 @@ int main(int argc, char *argv[]) {
     for(int i = 0; i < 32; i ++) {
         y[i] = (double)(2 * i - 1);
     }
-    sum_vectors(my_rank, comm_size, x, y, z, 32);
+    // sum_vectors(my_rank, comm_size, x, y, z, 32);
 
-    // sum_vectors_scatter_gatter(my_rank, comm_size, x, y, z, 32);
+    sum_vectors_scatter_gatter(my_rank, comm_size, x, y, z, 32);
     if(my_rank == 0) {
         printf("sum vector is: ");
         for(int i = 0; i < 32; i ++) {
