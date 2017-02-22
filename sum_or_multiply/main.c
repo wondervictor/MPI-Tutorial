@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "mpi.h"
 #include "sum.h"
+#include "vector_matrix.h"
 
 
 int main(int argc, char *argv[]) {
@@ -10,14 +11,48 @@ int main(int argc, char *argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &comm_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
+
+    double x[32];
+    double y[32];
+    double z[32] = {0};
+    for(int i = 0; i < 32; i ++) {
+        x[i] = (double)i/2;
+    }
+    for(int i = 0; i < 32; i ++) {
+        y[i] = (double)(2 * i - 1);
+    }
+    sum_vectors(my_rank, comm_size, x, y, z, 32);
+
+    // sum_vectors_scatter_gatter(my_rank, comm_size, x, y, z, 32);
+    if(my_rank == 0) {
+        printf("sum vector is: ");
+        for(int i = 0; i < 32; i ++) {
+            printf("%f ", z[i]);
+        }
+        printf("\n");
+    }
+
+
+    /* ****Scatter without Gatter****
+    sum_vectors(my_rank, comm_size, x, y, z, 32);
+    if(my_rank == 0) {
+        printf("sum vector is: ");
+        for(int i = 0; i < 32; i ++) {
+            printf("%f ", z[i]);
+        }
+        printf("\n");
+    }
+    */
+
+    /* ****All Reduce****
     int a[32];
     for(int i = 0; i < 32; i ++) {
         a[i] = i + 1;
     }
 
-    /* ****All Reduce**** */
     int result = sum_all_reduce(a, 32, my_rank, comm_size);
     printf("result is %d from proc %d\n",result, my_rank);
+    */
 
     /* ****Reduce*****
 
