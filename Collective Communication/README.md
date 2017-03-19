@@ -161,3 +161,47 @@ if (rank == 0) {
     MPI_Reduce(&sum, NULL, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 }
 ````
+
+
+## MPI_Allgather
+
+* 函数原型
+
+```
+MPI_Allgather(sendBuf, 1, MPI_INT, recvBuf, 1, MPI_INT, MPI_COMM_WORLD);
+```
+
+* 作用
+
+先聚集数据，然后将数据分发给每个进程
+
+* 样例
+
+```
+int sum = 0;
+for(int i = 0; i < 4; i ++) {
+    sum += rank * 4 + i;
+}
+int buf[commSize];
+fprintf(stdout, ">>> proc %d sum %d\n", rank, sum);
+
+MPI_Allgather(&sum, 1, MPI_INT, buf, 1, MPI_INT, MPI_COMM_WORLD);
+
+for(int i = 0; i < commSize; i ++) {
+    fprintf(stdout, ">>> proc %d index %d sum %d\n", rank, i, buf[i]);
+}
+```
+
+
+
+## MPI_Reduce
+
+* 函数原型
+
+```
+MPI_Allreduce(&senbuf, &recvBuf, count, MPI_FLOAT, MPI_SUM, MPI_COMM_WORLD);
+```
+
+* 作用
+
+先进行reduce操作，然后将数据分发给每个进程
