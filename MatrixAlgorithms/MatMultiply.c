@@ -48,9 +48,11 @@ int main(int argc, char* argv[]){
     fprintf(stdout, "Start to compute in proc %d\n", myRank);
     int res[8];
     int local_res;
+
     for(int i = 0; i < 8; i ++) {
+
         for (int j = 0; j < 8; j ++){
-            local_res += b[j * 8 + i] * cal_a[i];
+            local_res += b[j * 8 + i] * cal_a[j];
         }
         res[i] = local_res;
         local_res = 0;
