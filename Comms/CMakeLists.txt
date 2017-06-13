@@ -6,5 +6,5 @@ set(CMAKE_C_STANDARD 99)
 include_directories(/usr/local/include/)
 
 
-set(SOURCE_FILES main.c main.c CommGroup.c)
+set(SOURCE_FILES main.c main.c CommGroup.c InterComm.c)
 add_executable(Comm ${SOURCE_FILES})

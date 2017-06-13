@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
     float sum = 0.0;
     for(int i = 0; i < 3; i ++) {
         sum += recvBuf[i];
+        fprintf(stdout, "value: %f in proc %d\n", recvBuf[i], rank);
     }
     fprintf(stdout, ">>> proc cal sum = %f\n", sum);
     MPI_Finalize();
